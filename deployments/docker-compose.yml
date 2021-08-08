@@ -7,7 +7,7 @@ services:
       dockerfile: deployments/sfb/Dockerfile
     volumes:
       - type: bind
-        source: /tmp/wv
-        target: /tmp/wv
+        source: ${MNT_LOC}
+        target: ${MNT_LOC}
     ports:
       - "5000:5000"

@@ -65,12 +65,14 @@ To query the contents of folder `/tmp/wv` _(assumed exists on the host filesyste
 
 ### **Error Codes**
 
-200 :: Success
+`200` :: Success
 
-400 :: File not found
+`400` :: File not found
 
-401 :: Invalid username and/or password
+`401` :: Invalid username and/or password
 
 ### **Assumptions**
-- Note that the docker mounts desired directories during deployment (having the effect of only providing mounted directories available through the API for browsing)
+- Docker mounts desired directories during deployment (having the effect of only providing mounted directories available through the API for browsing)
+- Support if there for mounting a single directory location for browsing (while it is entirely possible in order to provide
+multiple directories to be mounted for browsing
 """

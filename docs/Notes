@@ -16,4 +16,4 @@ TODO:
 [4] *DONE* Add Basic Auth
 [5] Check user perms for showing contents of FS node requested
 [6] *DONE* Add example driver bash script
-[7] *DONE* API documentation
+[7] *DONE* API documentation (note: optional, add example for a sample file as request)
