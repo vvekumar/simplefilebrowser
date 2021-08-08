@@ -1,0 +1,13 @@
+version: "2"
+services:
+  app:
+    container_name: sfb-api
+    build:
+      context: ../
+      dockerfile: deployments/sfb/Dockerfile
+    volumes:
+      - type: bind
+        source: /tmp/wv
+        target: /tmp/wv
+    ports:
+      - "5000:5000"

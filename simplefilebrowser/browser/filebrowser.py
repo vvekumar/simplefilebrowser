@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-"""
-Created by Vivek Kumar on 7/27/21
-"""
-
 import os
 import stat
 import pathlib
@@ -12,17 +8,18 @@ import logging
 from simplefilebrowser.exceptions import *
 
 class SimpleFileBrowser:
+    """
+    Provides a library of methods for browsing and returning contents of the host filesystem
+    """
     def __init__(self):
         self.logger = logging.getLogger('__name__')
 
-    def _valid_path(self, root):
-        # TODO: may not be necessary
-        if os.path.exists(root):
-            return True
-        else:
-            return False
-
-    def _is_file(self, path):
+    def _is_file(self, path: str) -> bool:
+        """
+        check "inode" is of a file type
+        :param path: Path to check if is file or a not
+        :return: True if file
+        """
         if os.path.isfile(path):
             return True
         else:
@@ -30,6 +27,23 @@ class SimpleFileBrowser:
 
     @staticmethod
     def get_file_info(file):
+        """
+        get information related to a file
+        :param file: input file
+        :return: (dict)
+
+        ```
+        e.g.
+        get_file_info(foo) :
+             {
+            'filename': foo,
+            'uri': '/' + foo,
+            'size': 67K,
+            'permissions': r--r--r--,
+            'owner': johndoe
+            }
+        ```
+        """
         name = os.path.basename(file)
         filestat = os.stat(file)
         size = filestat.st_size
@@ -47,11 +61,11 @@ class SimpleFileBrowser:
         }
 
     def show_dir(self, path):
-        # TODO: check permissions
         """
-        List directory and show following info about its entities : {name, owner, size, (octal permissions), if folder}
-        :param path:
-        :return:
+        list directory and show following info about its entities : {name, owner, size, (octal permissions), if folder}
+        :param path: input path directory
+        :return: (list) return a list of dict with info on files
+
         """
         content = []
         if not os.path.exists(path):
@@ -82,7 +96,11 @@ class SimpleFileBrowser:
         return content
 
     def show_file(self, path):
-        # TODO: check permissions
+        """
+        show contents of a file
+        :param path: input file path
+        :return: (list) contents of input file
+        """
         self.logger.info('Showing contents of file : ' + path)
         contents = []
         with open(path) as file_path:
@@ -90,6 +108,11 @@ class SimpleFileBrowser:
         return contents
 
     def explore_location(self, path):
+        """
+        given an input path, return either its contents as the case may be for either a file/directory.
+        :param path: input path
+        :return:(list) contents of file/directory
+        """
         if self._is_file(path):
             return self.show_file(path)
         else:

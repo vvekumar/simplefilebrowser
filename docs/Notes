@@ -1,0 +1,19 @@
+Assumptions:
+- Docker mounts desired directories during deployment (having the effect of only providing mounted directories available through the API for browsing)
+
+Open Issues :
+[1] *DONE* Accept path/query params for root / relpath {Curl/Browser args difference}
+[1-1] *DONE* Parsing relpath as query parameter has issue
+[2] Providing root path to explore, shows recursive traversal results
+[3] curl '-o' does not save output
+[4] Parsing relpath as query parameter has issue from curl request {Curl/Browser args difference}
+
+
+TODO:
+[1] Add unit tests - API (auth, various requests)
+[2] *DONE* Add Dockerfile
+[3] *DONE* Add Dockerfile-Compose/Makefile (https://medium.com/@daniel.carlier/how-to-build-a-simple-flask-restful-api-with-docker-compose-2d849d738137)
+[4] *DONE* Add Basic Auth
+[5] Check user perms for showing contents of FS node requested
+[6] *DONE* Add example driver bash script
+[7] API documentation
