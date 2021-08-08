@@ -7,6 +7,9 @@ from pwd import getpwuid
 import logging
 from simplefilebrowser.exceptions import *
 
+class AccessNotPermitted(Exception):
+    pass
+
 class SimpleFileBrowser:
     """
     Provides a library of methods for browsing and returning contents of the host filesystem
@@ -14,7 +17,7 @@ class SimpleFileBrowser:
     def __init__(self):
         self.logger = logging.getLogger('__name__')
 
-    def _is_file(self, path: str) -> bool:
+    def _is_file(self, path):
         """
         check "inode" is of a file type
         :param path: Path to check if is file or a not
@@ -107,12 +110,23 @@ class SimpleFileBrowser:
             contents = file_path.read()
         return contents
 
+    def _is_access_allowed(self, path):
+        """
+        Check if access to file/directory is permitted
+        :param path:
+        :return:
+        """
+        # TODO
+        return True
+
     def explore_location(self, path):
         """
         given an input path, return either its contents as the case may be for either a file/directory.
         :param path: input path
         :return:(list) contents of file/directory
         """
+        if not self._is_access_allowed(path):
+            raise
         if self._is_file(path):
             return self.show_file(path)
         else:
