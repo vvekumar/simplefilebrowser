@@ -62,7 +62,7 @@ class SimpleFileBrowserAPI(Resource):
             'error_desc': error_desc,
             'contents': contents,
             'stimestamp': int(stimestamp),
-            'etimestamp': time.time()
+            'etimestamp': int(time.time())
         }
         return response
 
