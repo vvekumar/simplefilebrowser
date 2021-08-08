@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>simplefilebrowser.exceptions API documentation</title>
-<meta name="description" content="Created by Vivek (Siri) Kumar on 7/31/21" />
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,24 +22,14 @@
 <h1 class="title">Module <code>simplefilebrowser.exceptions</code></h1>
 </header>
 <section id="section-intro">
-<p>Created by Vivek (Siri) Kumar on 7/31/21</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">#!/usr/bin/env python
 #-*- coding: utf-8 -*-
-&#34;&#34;&#34;
-Created by Vivek (Siri) Kumar on 7/31/21
-&#34;&#34;&#34;
-class Error(Exception):
-    def __init__(self,):
-        &#34;&#34;&#34;Constructor for Error&#34;&#34;&#34;
 
 class PathIsNotFile(Exception):
-    pass
-
-class AuthenticationException(Exception):
     pass</code></pre>
 </details>
 </section>
@@ -52,45 +42,6 @@ class AuthenticationException(Exception):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="simplefilebrowser.exceptions.AuthenticationException"><code class="flex name class">
-<span>class <span class="ident">AuthenticationException</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class AuthenticationException(Exception):
-    pass</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="simplefilebrowser.exceptions.Error"><code class="flex name class">
-<span>class <span class="ident">Error</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Constructor for Error</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Error(Exception):
-    def __init__(self,):
-        &#34;&#34;&#34;Constructor for Error&#34;&#34;&#34;</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
 <dt id="simplefilebrowser.exceptions.PathIsNotFile"><code class="flex name class">
 <span>class <span class="ident">PathIsNotFile</span></span>
 <span>(</span><span>*args, **kwargs)</span>
@@ -126,12 +77,6 @@ class AuthenticationException(Exception):
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li>
-<h4><code><a title="simplefilebrowser.exceptions.AuthenticationException" href="#simplefilebrowser.exceptions.AuthenticationException">AuthenticationException</a></code></h4>
-</li>
-<li>
-<h4><code><a title="simplefilebrowser.exceptions.Error" href="#simplefilebrowser.exceptions.Error">Error</a></code></h4>
-</li>
 <li>
 <h4><code><a title="simplefilebrowser.exceptions.PathIsNotFile" href="#simplefilebrowser.exceptions.PathIsNotFile">PathIsNotFile</a></code></h4>
 </li>

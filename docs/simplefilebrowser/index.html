@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>simplefilebrowser API documentation</title>
-<meta name="description" content="Created by Vivek (Siri) Kumar on 8/2/21" />
+<meta name="description" content="**Introduction** …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,7 +22,69 @@
 <h1 class="title">Package <code>simplefilebrowser</code></h1>
 </header>
 <section id="section-intro">
-<p>Created by Vivek (Siri) Kumar on 8/2/21</p>
+<h3 id="introduction"><strong>Introduction</strong></h3>
+<p>SimpleFileBrowser (SFB) provides a REST API for browsing locations in a filesystem as desired (upon setting up the base server)</p>
+<h3 id="example"><strong>Example</strong></h3>
+<p>To query the contents of folder <code>/tmp/wv</code> <em>(assumed exists on the host filesystem)</em> and save in a results <code>resp.json</code> file</p>
+<p><code>$ curl -o resp.json -u ${USERNAME}:${PASSWORD} 0.0.0.0:5000/sfb/api?root=/tmp&amp;relpath=/wv</code></p>
+<p><code>$ cat resp.json</code></p>
+<pre><code>{
+    &quot;status_code&quot;: 200,
+    &quot;status_msg&quot;: &quot;SUCCESS! Showing contents for /tmp&quot;,
+    &quot;error_desc&quot;: &quot;&quot;,
+    &quot;contents&quot;: [
+        {
+            &quot;info&quot;: {
+                &quot;filename&quot;: &quot;tmpa9my2p6n&quot;,
+                &quot;uri&quot;: &quot;/tmpa9my2p6n&quot;,
+                &quot;size&quot;: 259465,
+                &quot;permissions&quot;: &quot;-rw-------&quot;,
+                &quot;owner&quot;: &quot;root&quot;
+            },
+            &quot;folder&quot;: false
+        },
+        {
+            &quot;info&quot;: {
+                &quot;filename&quot;: &quot;wv&quot;,
+                &quot;uri&quot;: &quot;/wv&quot;,
+                &quot;size&quot;: 128,
+                &quot;permissions&quot;: &quot;drwxr-xr-x&quot;,
+                &quot;owner&quot;: &quot;root&quot;
+            },
+            &quot;folder&quot;: true
+        },
+        {
+            &quot;info&quot;: {
+                &quot;filename&quot;: &quot;foo&quot;,
+                &quot;uri&quot;: &quot;/foo&quot;,
+                &quot;size&quot;: 0,
+                &quot;permissions&quot;: &quot;-rw-r--r--&quot;,
+                &quot;owner&quot;: &quot;root&quot;
+            },
+            &quot;folder&quot;: false
+        },
+        {
+            &quot;info&quot;: {
+                &quot;filename&quot;: &quot;foo7&quot;,
+                &quot;uri&quot;: &quot;/foo7&quot;,
+                &quot;size&quot;: 0,
+                &quot;permissions&quot;: &quot;-rw-r--r--&quot;,
+                &quot;owner&quot;: &quot;root&quot;
+            },
+            &quot;folder&quot;: false
+        }
+    ],
+    &quot;timestamp&quot;: 1628323736
+}
+</code></pre>
+<h3 id="error-codes"><strong>Error Codes</strong></h3>
+<p>200 :: Success</p>
+<p>400 :: File not found</p>
+<p>401 :: Invalid username and/or password</p>
+<h3 id="assumptions"><strong>Assumptions</strong></h3>
+<ul>
+<li>Note that the docker mounts desired directories during deployment (having the effect of only providing mounted directories available through the API for browsing)</li>
+</ul>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -30,7 +92,78 @@
 <pre><code class="python">#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 &#34;&#34;&#34;
-Created by Vivek (Siri) Kumar on 8/2/21
+### **Introduction**
+
+SimpleFileBrowser (SFB) provides a REST API for browsing locations in a filesystem as desired (upon setting up the base server)
+
+### **Example**
+To query the contents of folder `/tmp/wv` _(assumed exists on the host filesystem)_ and save in a results `resp.json` file
+
+```$ curl -o resp.json -u ${USERNAME}:${PASSWORD} 0.0.0.0:5000/sfb/api?root=/tmp&amp;relpath=/wv```
+
+```$ cat resp.json```
+
+```
+{
+    &#34;status_code&#34;: 200,
+    &#34;status_msg&#34;: &#34;SUCCESS! Showing contents for /tmp&#34;,
+    &#34;error_desc&#34;: &#34;&#34;,
+    &#34;contents&#34;: [
+        {
+            &#34;info&#34;: {
+                &#34;filename&#34;: &#34;tmpa9my2p6n&#34;,
+                &#34;uri&#34;: &#34;/tmpa9my2p6n&#34;,
+                &#34;size&#34;: 259465,
+                &#34;permissions&#34;: &#34;-rw-------&#34;,
+                &#34;owner&#34;: &#34;root&#34;
+            },
+            &#34;folder&#34;: false
+        },
+        {
+            &#34;info&#34;: {
+                &#34;filename&#34;: &#34;wv&#34;,
+                &#34;uri&#34;: &#34;/wv&#34;,
+                &#34;size&#34;: 128,
+                &#34;permissions&#34;: &#34;drwxr-xr-x&#34;,
+                &#34;owner&#34;: &#34;root&#34;
+            },
+            &#34;folder&#34;: true
+        },
+        {
+            &#34;info&#34;: {
+                &#34;filename&#34;: &#34;foo&#34;,
+                &#34;uri&#34;: &#34;/foo&#34;,
+                &#34;size&#34;: 0,
+                &#34;permissions&#34;: &#34;-rw-r--r--&#34;,
+                &#34;owner&#34;: &#34;root&#34;
+            },
+            &#34;folder&#34;: false
+        },
+        {
+            &#34;info&#34;: {
+                &#34;filename&#34;: &#34;foo7&#34;,
+                &#34;uri&#34;: &#34;/foo7&#34;,
+                &#34;size&#34;: 0,
+                &#34;permissions&#34;: &#34;-rw-r--r--&#34;,
+                &#34;owner&#34;: &#34;root&#34;
+            },
+            &#34;folder&#34;: false
+        }
+    ],
+    &#34;timestamp&#34;: 1628323736
+}
+```
+
+### **Error Codes**
+
+200 :: Success
+
+400 :: File not found
+
+401 :: Invalid username and/or password
+
+### **Assumptions**
+- Note that the docker mounts desired directories during deployment (having the effect of only providing mounted directories available through the API for browsing)
 &#34;&#34;&#34;</code></pre>
 </details>
 </section>
@@ -47,7 +180,7 @@ Created by Vivek (Siri) Kumar on 8/2/21
 </dd>
 <dt><code class="name"><a title="simplefilebrowser.exceptions" href="exceptions.html">simplefilebrowser.exceptions</a></code></dt>
 <dd>
-<div class="desc"><p>Created by Vivek (Siri) Kumar on 7/31/21</p></div>
+<div class="desc"></div>
 </dd>
 </dl>
 </section>
@@ -61,7 +194,12 @@ Created by Vivek (Siri) Kumar on 8/2/21
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#error-codes">Error Codes</a></li>
+<li><a href="#assumptions">Assumptions</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
