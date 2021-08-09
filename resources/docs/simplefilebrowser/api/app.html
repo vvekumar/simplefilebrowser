@@ -29,22 +29,21 @@
 <pre><code class="python">#!/usr/bin/env python
 
 import os
-from flask import Flask, make_response
+from flask import Flask, request, make_response
 from flask_restful import Resource, Api
-from simplefilebrowser.browser.filebrowser import SimpleFileBrowser, AccessNotPermitted
+from simplefilebrowser.browser.filebrowser import SimpleFileBrowser
+# import requests
 from flask import request
 import time
 
+from flask_restful import reqparse
+
+
+app = Flask(__name__)
+api = Api(app)
+
+
 class SimpleFileBrowserAPI(Resource):
-    def __init__(self):
-        self.app = Flask(__name__)
-        self.api = Api(self.app)
-        self.api.add_resource(SimpleFileBrowserAPI, &#39;/sfb/api&#39;)
-
-    @property
-    def create_app(self):
-        return self.app
-
     def get_path(self):
         # construct lookup path from query string params
         args = request.args
@@ -67,7 +66,7 @@ class SimpleFileBrowserAPI(Resource):
         if not self.authenticate():
             return make_response(&#34;Invalid username and/or password. Please verify.&#34;, 401, )
         error_desc = &#34;&#34;
-        stimestamp = time.time()
+        timestamp = time.time()
 
         fpath = self.get_path()
 
@@ -82,27 +81,22 @@ class SimpleFileBrowserAPI(Resource):
             status_msg = &#34;File not found&#34;
             error_desc = &#34;An invalid file/directory location was sent, please try a different location&#34;
             pass
-        except AccessNotPermitted:
-            contents = &#34;&#34;
-            status_code = 401
-            status_msg = &#34;Access not permitted&#34;
-            error_desc = &#34;Access not permitted to file/directory. Please verify access and try again&#34;
-            pass
-
+        # except AuthenticationException:
+        #     pass
         response = {
             &#39;status_code&#39;: status_code,
             &#39;status_msg&#39;: status_msg,
             &#39;error_desc&#39;: error_desc,
             &#39;contents&#39;: contents,
-            &#39;stimestamp&#39;: int(stimestamp),
-            &#39;etimestamp&#39;: int(time.time())
+            &#39;timestamp&#39;: int(timestamp)
         }
         return response
 
+api.add_resource(SimpleFileBrowserAPI, &#39;/sfb/api&#39;)
+
 if __name__ == &#39;__main__&#39;:
-    app = SimpleFileBrowserAPI()
-    # app.run(debug=True)  # USE FOR DEBUGGING ONLY!
-    app.run()</code></pre>
+    app.run(debug=True)  # USE FOR DEBUGGING ONLY!
+    # app.run()</code></pre>
 </details>
 </section>
 <section>
@@ -130,15 +124,6 @@ from the url rule used when adding the resource to an Api instance. See
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class SimpleFileBrowserAPI(Resource):
-    def __init__(self):
-        self.app = Flask(__name__)
-        self.api = Api(self.app)
-        self.api.add_resource(SimpleFileBrowserAPI, &#39;/sfb/api&#39;)
-
-    @property
-    def create_app(self):
-        return self.app
-
     def get_path(self):
         # construct lookup path from query string params
         args = request.args
@@ -161,7 +146,7 @@ from the url rule used when adding the resource to an Api instance. See
         if not self.authenticate():
             return make_response(&#34;Invalid username and/or password. Please verify.&#34;, 401, )
         error_desc = &#34;&#34;
-        stimestamp = time.time()
+        timestamp = time.time()
 
         fpath = self.get_path()
 
@@ -176,20 +161,14 @@ from the url rule used when adding the resource to an Api instance. See
             status_msg = &#34;File not found&#34;
             error_desc = &#34;An invalid file/directory location was sent, please try a different location&#34;
             pass
-        except AccessNotPermitted:
-            contents = &#34;&#34;
-            status_code = 401
-            status_msg = &#34;Access not permitted&#34;
-            error_desc = &#34;Access not permitted to file/directory. Please verify access and try again&#34;
-            pass
-
+        # except AuthenticationException:
+        #     pass
         response = {
             &#39;status_code&#39;: status_code,
             &#39;status_msg&#39;: status_msg,
             &#39;error_desc&#39;: error_desc,
             &#39;contents&#39;: contents,
-            &#39;stimestamp&#39;: int(stimestamp),
-            &#39;etimestamp&#39;: int(time.time())
+            &#39;timestamp&#39;: int(timestamp)
         }
         return response</code></pre>
 </details>
@@ -201,24 +180,13 @@ from the url rule used when adding the resource to an Api instance. See
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="simplefilebrowser.api.app.SimpleFileBrowserAPI.methods"><code class="name">var <span class="ident">methods</span></code></dt>
+<dt id="simplefilebrowser.api.app.SimpleFileBrowserAPI.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-</dl>
-<h3>Instance variables</h3>
-<dl>
-<dt id="simplefilebrowser.api.app.SimpleFileBrowserAPI.create_app"><code class="name">var <span class="ident">create_app</span></code></dt>
+<dt id="simplefilebrowser.api.app.SimpleFileBrowserAPI.methods"><code class="name">var <span class="ident">methods</span></code></dt>
 <dd>
 <div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def create_app(self):
-    return self.app</code></pre>
-</details>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -253,7 +221,7 @@ def create_app(self):
     if not self.authenticate():
         return make_response(&#34;Invalid username and/or password. Please verify.&#34;, 401, )
     error_desc = &#34;&#34;
-    stimestamp = time.time()
+    timestamp = time.time()
 
     fpath = self.get_path()
 
@@ -268,20 +236,14 @@ def create_app(self):
         status_msg = &#34;File not found&#34;
         error_desc = &#34;An invalid file/directory location was sent, please try a different location&#34;
         pass
-    except AccessNotPermitted:
-        contents = &#34;&#34;
-        status_code = 401
-        status_msg = &#34;Access not permitted&#34;
-        error_desc = &#34;Access not permitted to file/directory. Please verify access and try again&#34;
-        pass
-
+    # except AuthenticationException:
+    #     pass
     response = {
         &#39;status_code&#39;: status_code,
         &#39;status_msg&#39;: status_msg,
         &#39;error_desc&#39;: error_desc,
         &#39;contents&#39;: contents,
-        &#39;stimestamp&#39;: int(stimestamp),
-        &#39;etimestamp&#39;: int(time.time())
+        &#39;timestamp&#39;: int(timestamp)
     }
     return response</code></pre>
 </details>
@@ -307,6 +269,18 @@ def create_app(self):
     return fpath</code></pre>
 </details>
 </dd>
+<dt id="simplefilebrowser.api.app.SimpleFileBrowserAPI.mediatypes"><code class="name flex">
+<span>def <span class="ident">mediatypes</span></span>(<span>resource_cls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">return lambda resource_cls: self.mediatypes() + [self.default_mediatype]</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -327,11 +301,12 @@ def create_app(self):
 <ul>
 <li>
 <h4><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI">SimpleFileBrowserAPI</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI.authenticate" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI.authenticate">authenticate</a></code></li>
-<li><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI.create_app" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI.create_app">create_app</a></code></li>
+<li><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI.endpoint" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI.endpoint">endpoint</a></code></li>
 <li><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI.get" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI.get">get</a></code></li>
 <li><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI.get_path" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI.get_path">get_path</a></code></li>
+<li><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI.mediatypes" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI.mediatypes">mediatypes</a></code></li>
 <li><code><a title="simplefilebrowser.api.app.SimpleFileBrowserAPI.methods" href="#simplefilebrowser.api.app.SimpleFileBrowserAPI.methods">methods</a></code></li>
 </ul>
 </li>

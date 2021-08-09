@@ -1,1 +1,1 @@
-{"status_code": 200, "status_msg": "SUCCESS! Showing contents for /tmp/wv/foo", "error_desc": "", "contents": "this is a test\n", "timestamp": 1628458401}
+{"status_code": 200, "status_msg": "SUCCESS! Showing contents for /tmp/wv/foo", "error_desc": "", "contents": "this is a test\n", "stimestamp": 1628460164, "etimestamp": 1628460164.0712962}
