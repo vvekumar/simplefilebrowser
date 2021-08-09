@@ -2,32 +2,29 @@
 Created by Vivek Kumar on 7/27/21
 """
 import unittest
-from simplefilebrowser.api import app
+import pytest
+from base64 import b64encode
+from simplefilebrowser.api.app import SimpleFileBrowserAPI
 
-TEST_PATH_VALID = "//test"
-TEST_PATH_INVALID = "/Users/vivekk_28/Vi/code/playground/github/simple-file-browsers"
-TEST_FILE_PATH = "/Users/vivekk_28/Vi/code/playground/github/simplefilebrowser/simplefilebrowser/exceptions.py"
+URL = "0.0.0.0:5000/sfb/api?root=/tmp/wv/foo"
 
-class TestSFBAPI(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.api = app.SimpleFileBrowserAPI()
+@pytest.fixture
+def client():
+    sfb = SimpleFileBrowserAPI()
+    app = sfb.create_app
+    with app.test_client() as client:
+        yield client
 
-    # def test_valid_root(self):
-    #     path = TEST_PATH_VALID
-    #     contents = TestFileBrowser.file_browser.show_dir(path)
-    #     self.assertIsNotNone(contents)
 
-    # def test_invalid_root(self):
-    #     path = TEST_PATH_INVALID
-    #     with self.assertRaises(FileExistsError):
-    #         TestFileBrowser.file_browser.show_dir(path)
+def test_200_response(client):
+    credentials = b64encode(b"calvin:hobbes").decode('utf-8')
+    data = {
+        'root': '/tmp/wv'}
+    resp = client.get('/sfb/api', headers={"Authorization": f"Basic {credentials}"}, query_string=data)
+    assert resp.status_code == 200
 
-    # def test_show_file_contents(self):
-    #     path = TEST_FILE_PATH
-    #     contents = TestFileBrowser.file_browser.show_file(path)
-    #     print(contents)
-    #     assert len(contents) > 0
 
-if __name__ == '__main__':
-    unittest.main()
+def test_401_response(client):
+    resp = client.get('/sfb/api')
+    assert resp.status_code == 401
+
