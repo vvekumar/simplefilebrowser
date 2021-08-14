@@ -14,7 +14,7 @@ pip install -r requirements.txt # [OPTIONAL] if running pytest locally
 
 sleep 2
 # verify
-is_err=`${PATH_TO_DOCKER} logs sfb-api | egrep "== ERRORS =="`
+is_err=`py.test | egrep "== ERRORS =="`
 
 if [[ -n ${is_err} ]]; then
   echo
