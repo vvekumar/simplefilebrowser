@@ -1,12 +1,13 @@
 """
 Created by Vivek Kumar on 7/27/21
 """
+import os
 import unittest
 from simplefilebrowser.browser import filebrowser as fb
 
-TEST_PATH_VALID = "//test"
-TEST_PATH_INVALID = "/Users/vivekk_28/Vi/code/playground/github/simple-file-browsers"
-TEST_FILE_PATH = "/Users/vivekk_28/Vi/code/playground/github/simplefilebrowser/simplefilebrowser/exceptions.py"
+TEST_PATH_VALID = os.path.dirname(os.path.realpath(__file__))
+TEST_PATH_INVALID = "/does/not/exist"
+TEST_FILE_PATH = os.path.realpath(__file__)
 
 class TestFileBrowser(unittest.TestCase):
     @classmethod
@@ -20,7 +21,7 @@ class TestFileBrowser(unittest.TestCase):
 
     def test_invalid_root(self):
         path = TEST_PATH_INVALID
-        with self.assertRaises(FileExistsError):
+        with self.assertRaises(FileNotFoundError):
             TestFileBrowser.file_browser.show_dir(path)
 
     def test_show_file_contents(self):

@@ -7,15 +7,16 @@ from simplefilebrowser.browser.filebrowser import SimpleFileBrowser, AccessNotPe
 from flask import request
 import time
 
+def create_app():
+    api = SimpleFileBrowserAPI()
+    return api.app
+
 class SimpleFileBrowserAPI(Resource):
     def __init__(self):
         self.app = Flask(__name__)
         self.api = Api(self.app)
         self.api.add_resource(SimpleFileBrowserAPI, '/sfb/api')
 
-    @property
-    def create_app(self):
-        return self.app
 
     def get_path(self):
         # construct lookup path from query string params
