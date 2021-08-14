@@ -4,14 +4,11 @@ Created by Vivek Kumar on 7/27/21
 import unittest
 import pytest
 from base64 import b64encode
-from simplefilebrowser.api.app import SimpleFileBrowserAPI
-
-URL = "0.0.0.0:5000/sfb/api?root=/tmp/wv/foo"
+from simplefilebrowser.api.app import SimpleFileBrowserAPI, create_app
 
 @pytest.fixture
 def client():
-    sfb = SimpleFileBrowserAPI()
-    app = sfb.create_app
+    app = create_app()
     with app.test_client() as client:
         yield client
 

@@ -3,11 +3,15 @@
 Python REST API provides a way to list contents of a portion of a filesystem
 
 ## Installation
+
+Prerequisites: make sure Docker.app is up and running
+ 
+
 In order to install `sfb-api`, follow these steps: 
 1. `cd <path-to-simplefilebrowser>`
 1. `export MNT_LOC=<root-dir-to-mount-for-query>`  set environment variable to root directory intended to be browsed/queried
 
-2. Run `make install` at the project root location to install and start the API
+2. Run `./build.sh` at the project root location to install/start the API and run integration tests
 
 By default, the server is programmed to accept requests on `localhost:5000/sfb/api` or `0.0.0.0:5000/sfb/api` 
 
